@@ -53,17 +53,11 @@ public class KnightsTour{
     }
 
     public boolean solve(int startx, int starty){
-	if (solve(startx, starty, 1)){
-	    return true;
-	} else {
-	    System.out.println("\nNo solution");
-	    return false;
-	}
+	return (solve(startx, starty, 1));
     }
 		
     public boolean solve(int x,int y,int currentMoveNumber){
 	if (currentMoveNumber == board.length * board.length + 1){
-	    System.out.println(this);
 	    return true;
 	}
 	if (x >= board.length || x < 0 || y >= board.length || y < 0 || board[y][x] != 0){
@@ -78,9 +72,5 @@ public class KnightsTour{
 	}
 	board[y][x] = 0;
 	return false;
-    }
-    public static void main(String[]args){
-	KnightsTour a = new KnightsTour(6);
-	a.solve();
     }
 }
