@@ -25,12 +25,23 @@ public class KnightsTour{
 
     public String toString(){
 	String ans = "\n";
-	//build your knights tour here...
+        for (int i = 0; i < board.length; i++){
+	    for (int j = 0; j < board.length; j++){
+		if (board[i][j] < 10){
+		    ans += "  " + board[i][j];
+		} else if (board[i][j] < 100){
+		    ans += " " + board[i][j];
+		} else {
+		    ans += board[i][j];
+		}
+	    }
+	    ans += "\n";
+	}
 	return hide + go(0,0) + ans + "\n" + show;
     }
 
     public KnightsTour(int size){
-				
+	board = new int[size][size];
     }
 
     public void solve(){
@@ -46,5 +57,9 @@ public class KnightsTour{
 	wait(20);
 				
 	return false;
+    }
+    public static void main(String[]args){
+	KnightsTour a = new KnightsTour(5);
+	System.out.println(a);
     }
 }
