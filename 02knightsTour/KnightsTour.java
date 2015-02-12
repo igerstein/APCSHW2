@@ -14,6 +14,10 @@ public class KnightsTour{
     private String go(int x,int y){
 	return ("\033[" + x + ";" + y + "H");
     }
+
+    public String name(){
+	return "Gerstein,Isaac";
+    }
  
     public void wait(int millis){
 	try {
@@ -37,26 +41,27 @@ public class KnightsTour{
 	    }
 	    ans += "\n";
 	}
-	return hide + go(0,0) + ans + "\n" + show;
+	return hide + clear + go(0,0) + ans + "\n" + show;
     }
 
     public KnightsTour(int size){
 	board = new int[size][size];
     }
 
-    public void solve(){
-				
+    public boolean solve(){
+	return solve(0, 0);
     }
 
-    public void solve(int startx, int starty){
-				
+    public boolean solve(int startx, int starty){
+	return solve(startx, starty, 0);
     }
 		
     public boolean solve(int x,int y,int currentMoveNumber){
-	System.out.println(this);
-	wait(20);
-				
-	return false;
+	//System.out.println(this);
+	//wait(20);
+	if (x > board.length || y > board.length || board[x][y] != 0){
+	    return false;
+	}
     }
     public static void main(String[]args){
 	KnightsTour a = new KnightsTour(5);
