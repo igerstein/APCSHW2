@@ -16,7 +16,7 @@ public class KnightsTour{
     }
 
     public String name(){
-	return "Gerstein,Isaac";
+	return "gerstein.isaac";
     }
  
     public void wait(int millis){
