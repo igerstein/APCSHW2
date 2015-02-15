@@ -59,7 +59,7 @@ public class NQueens{
 	if (x == board.length){
 	    return true;
 	}
-	if (y == board.length || findQueens(x, y)){
+	if (y >= board.length || findQueens(x, y)){
 	    return false;
 	}
 	board[y][x] = 'Q';
