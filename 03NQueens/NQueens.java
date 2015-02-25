@@ -48,7 +48,12 @@ public class NQueens{
     }
 
     public boolean solve(){
-	return solve(0, 0);
+	for (int i = 0; i < board.length; i++){
+	    if (solve(0, i)){
+		return true;
+	    }
+	}
+	return false;
     }
 
     public boolean solve(int x){
@@ -59,7 +64,7 @@ public class NQueens{
 	if (x == board.length){
 	    return true;
 	}
-	if (y >= board.length || findQueens(x, y)){
+	if (y >= board.length || y < 0 || findQueens(x, y)){
 	    return false;
 	}
 	board[y][x] = 'Q';
@@ -69,9 +74,6 @@ public class NQueens{
 	    }
 	}
 	board[y][x] = '_';
-	if (solve(x, y + 1)){
-	    return true;
-	}
 	return false;
     }
 
