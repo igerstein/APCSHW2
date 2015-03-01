@@ -1,5 +1,5 @@
 import java.util.*;
-public class MergeSort{
+public class Sorts{
     public static int[] merge(int[] a, int[] b){
 	int aSpot = 0;
 	int bSpot = 0;
@@ -26,10 +26,40 @@ public class MergeSort{
 	}
 	return c;
     }
-    public static void main(String[]args){
-	int[] a = {2, 3, 5};
-	int[] b = {2, 4, 7, 9};
-	int[] c = merge(a, b);
-	System.out.println(Arrays.toString(c));
+    
+    public static void mergesort(int[] array){
+	int mid = array.length / 2;
+	int[] a = new int[mid];
+	int[] b;
+	if (array.length % 2 == 0){
+	    b = new int[mid];
+	}else{
+	    b = new int[mid + 1];
+	}
+	for (int i = 0; i < mid; i++){
+	    a[i] = array[i];
+	}
+	for (int i = mid, c = 0; i < array.length; i++, c++){
+	    b[c] = array[i];
+	}
+	if (!Sorts.isSorted(a)){
+	    mergesort(a);
+	}
+	if (!Sorts.isSorted(b)){
+	    mergesort(b);
+	}
+	int[] array2 = merge(a, b);
+	for (int i = 0; i < array2.length; i++){
+	    array[i] = array2[i];
+	}
+    }
+
+    public static boolean isSorted(int[] array){
+	for (int i = 0; i < array.length - 1; i++){
+	    if (array[i] > array[i + 1]){
+		return false;
+	    }
+	}
+	return true;
     }
 }
