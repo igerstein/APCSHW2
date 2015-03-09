@@ -1,10 +1,50 @@
 import java.util.*;
-public class QuickSelect{
-    public static void main(String[]args){
-	int[] ary = {4, 6};
-	System.out.println(QuickSelect.quickSelect(ary, 0));
-    }
+public class Sorts{
+    public static void quicksort(int[] ary){
+	if (ary.length > 1){
+	    int si = 0;
+	    int dup = 0;
+	    int ei = ary.length - 1;
+	    int randomIndex = (int)(Math.random() * (ei - si + 1)) + si;
+	    int pivot = ary[randomIndex];
+	    int temp;
+	    while (dup <= ei){
+		if (ary[dup] > pivot){
+		    temp = ary[ei];
+		    ary[ei] = ary[dup];
+		    ary[dup] = temp;
+		    ei--;
+		}else if (ary[dup] == pivot){
+		    dup++;
+		}else{
+		    temp = ary[dup];
+		    ary[dup] = ary[si];
+		    ary[si] = temp;
+		    dup++;
+		    si++;
+		}
+	    }
 
+	    int[] section1 = new int[si];
+	    for (int i = 0; i < section1.length; i++){
+		section1[i] = ary[i];
+	    }
+	    quicksort(section1);
+	    for (int i = 0; i < section1.length; i++){
+		ary[i] = section1[i];
+	    }
+	    
+	    int[] section2 = new int[ary.length - ei - 1];
+	    for (int i = 0; i < section2.length; i++){
+		section2[i] = ary[ei + i + 1];
+	    }
+	    quicksort(section2);
+	    for (int i = 0; i < section2.length; i++){
+		ary[ei + i + 1] = section2[i];
+	    }
+	}
+    }
+    
     public static int quickSelect(int[] ary, int n){
 	int si = 0;
 	int ei = ary.length - 1;
