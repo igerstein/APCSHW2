@@ -17,5 +17,9 @@ public class LNode{
     public void setNext(LNode next){
 	this.next = next;
     }
+
+    public String toString(){
+	return "" + value;
+    }
 }
     
