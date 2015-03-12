@@ -9,16 +9,13 @@ public class MyLinkedList{
     }
 
     public String toString(){
-	String ans = "";
-	current = head;
-	while (current.getValue() != null){
-	    ans += current.getValue();
-	    if (current.getNext() != null){
-		ans += ", ";
-	    }
+	String ans = "[ ";
+	LNode temp = head;
+	while (temp.getValue() != null){
+	    ans += temp.getValue() + ",";
 	    current = current.getNext();
 	}
-	return ans;
+	return ans.substring(0, ans.length() - 1) + " ]";
     }
 
     public int get(int index){
