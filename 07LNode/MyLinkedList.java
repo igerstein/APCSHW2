@@ -1,18 +1,13 @@
 public class MyLinkedList{
     private LNode head;
 
-    public MyLinkedList(){
-    }
-
-    public MyLinkedList(int size){
-    }
-
     public static void main(String[]args){
 	MyLinkedList a = new MyLinkedList();
 	a.add(1);
 	a.add(2);
 	a.add(3);
 	System.out.println(a);
+	System.out.println(a.size());
     }
 
     public String toString(){
@@ -56,7 +51,13 @@ public class MyLinkedList{
     }
 
     public int size(){
-	return 0;
+	int size = 0;
+	LNode temp = head;
+	while (temp != null){
+	    size++;
+	    temp = temp.getNext();
+	}
+	return size;
     }
 
     public int indexOf(int value){
