@@ -8,8 +8,14 @@ public class MyLinkedList{
 	a.add(1);
 	a.add(2);
 	a.add(3);
-	a.set(1, 99);
+	a.add(4);
+	a.add(5);
+	a.add(6);
 	System.out.println(a);
+	System.out.println(a);
+	System.out.println(a.head.getValue());
+	System.out.println(a.tail.getValue());
+	System.out.println(a.size());
     }
 
     public String toString(){
@@ -101,7 +107,26 @@ public class MyLinkedList{
     }
 
     public int remove(int index){
-	return 0;
+	if (index < 0 || index >= size()){
+	    throw new IndexOutOfBoundsException();
+	}
+	size--;
+	if (index == 0){
+	    int previous = head.getValue();
+	    head = head.getNext();
+	    return previous;
+	}else{
+	    LNode temp = head;
+	    for (int i = 0; i < index - 1; i++){
+		temp = temp.getNext();
+	    }
+	    int previous = temp.getNext().getValue();
+	    temp.setNext(temp.getNext().getNext());
+	    if (index == size()){
+		tail = temp;
+	    }
+	    return previous;
+	}
     }
 
     public int size(){
