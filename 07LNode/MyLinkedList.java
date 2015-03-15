@@ -12,10 +12,6 @@ public class MyLinkedList{
 	a.add(5);
 	a.add(6);
 	System.out.println(a);
-	System.out.println(a);
-	System.out.println(a.head.getValue());
-	System.out.println(a.tail.getValue());
-	System.out.println(a.size());
     }
 
     public String toString(){
@@ -134,6 +130,15 @@ public class MyLinkedList{
     }
 
     public int indexOf(int value){
-	return 0;
+	int index = 0;
+	LNode temp = head;
+	while (temp != null){
+	    if (temp.getValue() == value){
+		return index;
+	    }
+	    index++;
+	    temp = temp.getNext();
+	}
+	return -1;
     }
 }
