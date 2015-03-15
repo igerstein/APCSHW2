@@ -1,12 +1,13 @@
 public class MyLinkedList{
     private LNode head;
+    private LNode tail;
+    private int size = 0;
 
     public static void main(String[]args){
-	MyLinkedList a = new MyLinkedList();
+	MyLinkedList a = new MyLinkedList();;
 	a.add(1);
 	a.add(2);
 	a.add(3);
-	a.add(1, 9);
 	System.out.println(a);
 	System.out.println(a.size());
     }
@@ -32,15 +33,17 @@ public class MyLinkedList{
 	if (head == null){
 	    head = new LNode();
 	    head.setValue(value);
+	}else if (tail == null){
+	    tail = new LNode();
+	    tail.setValue(value);
+	    head.setNext(tail);
 	}else{
-	    LNode temp = head;
-	    while (temp.getNext() != null){
-		temp = temp.getNext();
-	    }
-	    LNode nextNode = new LNode();
-	    nextNode.setValue(value);
-	    temp.setNext(nextNode);
+	    LNode newNode = new LNode();
+	    newNode.setValue(value);
+	    tail.setNext(newNode);
+	    tail = newNode;
 	}
+	size++;
 	return true;
     }
 
@@ -48,26 +51,25 @@ public class MyLinkedList{
 	if (index < 0 || index > size()){
 	    throw new IndexOutOfBoundsException();
 	}
-	if (head == null){
-	    head = new LNode();
-	    head.setValue(value);
+	if (index == size()){
+	    add(value);
+	}else if (index == 0){
+	    LNode newNode = new LNode();
+	    newNode.setValue(value);
+	    newNode.setNext(head);
+	    head = newNode;
+	    size++;
 	}else{
-	    if (index == 0){
-		LNode newNode = new LNode();
-		newNode.setValue(value);
-		newNode.setNext(head);
-		head = newNode;
-	    }else{
-		LNode temp = head;
-		for (int i = 0; i < index - 1; i++){
-		    temp = temp.getNext();
-		}
-		LNode newNode = new LNode();
-		LNode nodeAfter = temp.getNext();
-		newNode.setValue(value);
-		temp.setNext(newNode);
-		newNode.setNext(nodeAfter);
+	    LNode temp = head;
+	    for (int i = 0; i < index - 1; i++){
+		temp = temp.getNext();
 	    }
+	    LNode newNode = new LNode();
+	    LNode nodeAfter = temp.getNext();
+	    newNode.setValue(value);
+	    temp.setNext(newNode);
+	    newNode.setNext(nodeAfter);
+	    size++;
 	}
     }
 
@@ -76,12 +78,6 @@ public class MyLinkedList{
     }
 
     public int size(){
-	int size = 0;
-	LNode temp = head;
-	while (temp != null){
-	    size++;
-	    temp = temp.getNext();
-	}
 	return size;
     }
 
