@@ -8,8 +8,7 @@ public class MyLinkedList{
 	a.add(1);
 	a.add(2);
 	a.add(3);
-	System.out.println(a);
-	System.out.println(a.size());
+	System.out.println(a.get(1));
     }
 
     public String toString(){
@@ -23,7 +22,18 @@ public class MyLinkedList{
     }
 
     public int get(int index){
-	return 0;
+	if (index < 0 || index >= size()){
+	    throw new IndexOutOfBoundsException();
+	}
+	if (index == size() - 1){
+	    return tail.getValue();
+	}else{
+	    LNode temp = head;
+	    for (int i = 0; i < index; i++){
+		temp = temp.getNext();
+	    }
+	    return temp.getValue();
+	}
     }
 
     public void set(int index, int value){
