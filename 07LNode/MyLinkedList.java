@@ -1,18 +1,7 @@
-public class MyLinkedList{
-    private LNode head;
-    private LNode tail;
+public class MyLinkedList<T>{
+    private LNode<T> head;
+    private LNode<T> tail;
     private int size = 0;
-
-    public static void main(String[]args){
-	MyLinkedList a = new MyLinkedList();;
-	a.add(1);
-	a.add(2);
-	a.add(3);
-	a.add(4);
-	a.add(5);
-	a.add(6);
-	System.out.println(a);
-    }
 
     public String name(){
 	return "gerstein.isaac";
@@ -20,7 +9,7 @@ public class MyLinkedList{
 
     public String toString(){
 	String ans = "[ ";
-	LNode temp = head;
+	LNode<T> temp = head;
 	while (temp != null){
 	    ans += temp.getValue() + ",";
 	    temp = temp.getNext();
@@ -28,14 +17,14 @@ public class MyLinkedList{
 	return ans.substring(0, ans.length() - 1) + " ]";
     }
 
-    public int get(int index){
+    public T get(int index){
 	if (index < 0 || index >= size()){
 	    throw new IndexOutOfBoundsException();
 	}
 	if (index == size() - 1){
 	    return tail.getValue();
 	}else{
-	    LNode temp = head;
+	    LNode<T> temp = head;
 	    for (int i = 0; i < index; i++){
 		temp = temp.getNext();
 	    }
@@ -43,36 +32,33 @@ public class MyLinkedList{
 	}
     }
 
-    public int set(int index, int value){
+    public T set(int index, T value){
 	if (index < 0 || index >= size()){
 	    throw new IndexOutOfBoundsException();
 	}
 	if (index == size() - 1){
-	    int previous = tail.getValue();
+	    T previous = tail.getValue();
 	    tail.setValue(value);
 	    return previous;
 	}else{
-	    LNode temp = head;
+	    LNode<T> temp = head;
 	    for (int i = 0; i < index; i++){
 		temp = temp.getNext();
 	    }
-	    int previous = temp.getValue();
+	    T previous = temp.getValue();
 	    temp.setValue(value);
 	    return previous;
 	}
     }
 
-    public boolean add(int value){
+    public boolean add(T value){
 	if (head == null){
-	    head = new LNode();
-	    head.setValue(value);
+	    head = new LNode<T>(value);
 	}else if (tail == null){
-	    tail = new LNode();
-	    tail.setValue(value);
+	    tail = new LNode<T>(value);
 	    head.setNext(tail);
 	}else{
-	    LNode newNode = new LNode();
-	    newNode.setValue(value);
+	    LNode<T> newNode = new LNode<T>(value);
 	    tail.setNext(newNode);
 	    tail = newNode;
 	}
@@ -80,47 +66,45 @@ public class MyLinkedList{
 	return true;
     }
 
-    public void add(int index, int value){
+    public void add(int index, T value){
 	if (index < 0 || index > size()){
 	    throw new IndexOutOfBoundsException();
 	}
 	if (index == size()){
 	    add(value);
 	}else if (index == 0){
-	    LNode newNode = new LNode();
-	    newNode.setValue(value);
+	    LNode<T> newNode = new LNode<T>(value);
 	    newNode.setNext(head);
 	    head = newNode;
 	    size++;
 	}else{
-	    LNode temp = head;
+	    LNode<T> temp = head;
 	    for (int i = 0; i < index - 1; i++){
 		temp = temp.getNext();
 	    }
-	    LNode newNode = new LNode();
-	    LNode nodeAfter = temp.getNext();
-	    newNode.setValue(value);
+	    LNode<T> newNode = new LNode<T>(value);
+	    LNode<T> nodeAfter = temp.getNext();
 	    temp.setNext(newNode);
 	    newNode.setNext(nodeAfter);
 	    size++;
 	}
     }
 
-    public int remove(int index){
+    public T remove(int index){
 	if (index < 0 || index >= size()){
 	    throw new IndexOutOfBoundsException();
 	}
 	size--;
 	if (index == 0){
-	    int previous = head.getValue();
+	    T previous = head.getValue();
 	    head = head.getNext();
 	    return previous;
 	}else{
-	    LNode temp = head;
+	    LNode<T> temp = head;
 	    for (int i = 0; i < index - 1; i++){
 		temp = temp.getNext();
 	    }
-	    int previous = temp.getNext().getValue();
+	    T previous = temp.getNext().getValue();
 	    temp.setNext(temp.getNext().getNext());
 	    if (index == size()){
 		tail = temp;
@@ -133,9 +117,9 @@ public class MyLinkedList{
 	return size;
     }
 
-    public int indexOf(int value){
+    public int indexOf(T value){
 	int index = 0;
-	LNode temp = head;
+	LNode<T> temp = head;
 	while (temp != null){
 	    if (temp.getValue() == value){
 		return index;
