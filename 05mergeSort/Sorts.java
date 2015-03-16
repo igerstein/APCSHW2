@@ -1,5 +1,10 @@
 import java.util.*;
 public class Sorts{
+
+    public String name(){
+	return "gerstein.isaac";
+    }
+
     public static int[] merge(int[] a, int[] b){
 	int aSpot = 0;
 	int bSpot = 0;
