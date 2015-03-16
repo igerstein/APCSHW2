@@ -1,5 +1,10 @@
 import java.util.*;
 public class Sorts{
+
+    public String name(){
+	return "gerstein.isaac";
+    }
+
     public static void quicksort(int[] ary){
 	if (ary.length > 1){
 	    int si = 0;
