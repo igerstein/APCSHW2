@@ -11,6 +11,10 @@ public class MyLinkedList{
 	System.out.println(a.size());
     }
 
+    public String name(){
+	return "gerstein.isaac";
+    }
+
     public String toString(){
 	String ans = "[ ";
 	LNode temp = head;
