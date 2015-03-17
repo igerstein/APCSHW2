@@ -1,4 +1,5 @@
-public class MyLinkedList<T>{
+import java.util.*;
+public class MyLinkedList<T>{ // implements Iterable<T>{
     private LNode<T> head;
     private LNode<T> tail;
     private int size = 0;
@@ -129,4 +130,29 @@ public class MyLinkedList<T>{
 	}
 	return -1;
     }
+
+    /*public Iterator<T> iterator(){
+	MLLIterator<T> a = new MLLIterator<T>();
+	return a;
+    }
+
+    public class MLLIterator<T> implements Iterator<T>{
+	private LNode node;
+
+	public MLLIterator(){
+
+	}
+
+	public boolean hasNext(){
+	    return true;
+	}
+
+	public T next(){
+	    return 0;
+	}
+
+	public void remove(){
+	    throw new UnsupportedOperationException();
+	}
+	}*/
 }
