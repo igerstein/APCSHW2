@@ -1,9 +1,9 @@
 import java.util.*;
-public class MyLinkedList<T>{ // implements Iterable<T>{
+public class MyLinkedList<T> implements Iterable<T>{
     private LNode<T> head;
     private LNode<T> tail;
     private int size = 0;
-
+	
     public String name(){
 	return "gerstein.isaac";
     }
@@ -131,28 +131,32 @@ public class MyLinkedList<T>{ // implements Iterable<T>{
 	return -1;
     }
 
-    /*public Iterator<T> iterator(){
-	MLLIterator<T> a = new MLLIterator<T>();
-	return a;
+    public Iterator<T> iterator(){
+	return new MLLIterator<T>(head);
     }
 
     public class MLLIterator<T> implements Iterator<T>{
-	private LNode node;
+	private LNode<T> node;
 
-	public MLLIterator(){
-
+	public MLLIterator(LNode<T> head){
+	    node = head;
 	}
 
 	public boolean hasNext(){
-	    return true;
+	    return node != null;
 	}
 
 	public T next(){
-	    return 0;
+	    if (node == null){
+		throw new NoSuchElementException();
+	    }
+	    T value = node.getValue();
+	    node = node.getNext();
+	    return value;
 	}
 
 	public void remove(){
 	    throw new UnsupportedOperationException();
 	}
-	}*/
+    }
 }
