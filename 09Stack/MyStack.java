@@ -4,64 +4,30 @@ public class MyStack<T>{
     public String name(){
 	return "gerstein.isaac";
     }
-    
-    public class StackSection<T>{
-	private T value;
-	private StackSection<T> previous;
 
-	public StackSection(T value){
-	    setValue(value);
-	}
-
-	public T getValue(){
-	    return value;
-	}
-
-	public StackSection<T> getPrevious(){
-	    return previous;
-	}
-
-	public void setValue(T value){
-	    this.value = value;
-	}
-
-	public void setPrevious(StackSection<T> previous){
-	    this.previous = previous;
-	}
-    }
-
-    private StackSection<T> top;
+    private MyLinkedList<T> stack = new MyLinkedList<T>();
 
     public T push(T item){
-	if (top == null){
-	    top = new StackSection<T>(item);
-	}else{
-	    StackSection<T> last = new StackSection<T>(top.getValue());
-	    last.setPrevious(top.getPrevious());
-	    top.setValue(item);
-	    top.setPrevious(last);
-	}
+	stack.add(item);
 	return item;
     }
 
     public T pop(){
-	if (top == null){
+	if (stack.size() == 0){
 	    throw new EmptyStackException();
 	}
-	T item = top.getValue();
-	top = top.getPrevious();
-	return item;
+	return stack.remove(stack.size() - 1);
     }
 
     public T peek(){
-	if (top == null){
+	if (stack.size() == 0){
 	    throw new EmptyStackException();
 	}
-	return top.getValue();
+	return stack.get(stack.size() - 1);
     }
 
     public boolean empty(){
-	return top == null;
+	return stack.size() == 0;
     }
 }
     
