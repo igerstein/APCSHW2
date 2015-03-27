@@ -1,23 +1,5 @@
 import java.util.*;
 public class MyDeque<T>{
-
-    public static void main(String[]args){
-	MyDeque<Integer> a = new MyDeque<Integer>(true);
-	a.addFirst(new Integer(1));
-	a.addFirst(new Integer(2));
-	a.addFirst(new Integer(3));
-	a.addLast(new Integer(4));
-	a.addLast(new Integer(5));
-	a.addFirst(new Integer(6));
-	a.removeFirst();
-	a.removeFirst();
-	a.removeFirst();
-	a.removeFirst();
-	a.removeFirst();
-	a.removeFirst();
-	System.out.println(a);
-	System.out.println(a.size);
-    }
     
     public String name(){
 	return "gerstein.isaac";
@@ -37,22 +19,21 @@ public class MyDeque<T>{
 
     public String toString(){
 	String ans = "[ ";
-	/*if (tail > head && size > 0){
-	    for (int i = head; i <= tail; i++){
-		ans += deque[i] + ",";
+	if (size > 0){
+	    if (tail > head){
+		for (int i = head; i <= tail; i++){
+		    ans += deque[i] + ",";
+		}
+	    }else if (tail < head){
+		for (int i = head; i < deque.length; i++){
+		    ans += deque[i] + ",";
+		}
+		for (int i = 0; i <= tail; i++){
+		    ans += deque[i] + ",";
+		}
+	    }else{
+		ans += deque[head] + ",";
 	    }
-	}else if (tail < head && size > 0){
-	    for (int i = head; i < deque.length; i++){
-		ans += deque[i] + ",";
-	    }
-	    for (int i = 0; i <= tail; i++){
-		ans += deque[i] + ",";
-	    }
-	}else if (size > 0){
-	    ans += deque[head] + ",";
-	    }*/
-	for (int i = 0; i < deque.length; i++){
-	    ans += deque[i] + ",";
 	}
 	return ans.substring(0, ans.length() - 1) + " ]";
     }
@@ -149,6 +130,20 @@ public class MyDeque<T>{
 	    }
 	}
 	return element;
+    }
+
+    public T getLast(){
+	if (size == 0){
+	    throw new NoSuchElementException();
+	}
+	return (T)deque[tail];
+    }
+
+    public T getFirst(){
+	if (size == 0){
+	    throw new NoSuchElementException();
+	}
+	return (T)deque[head];
     }
 
     public void resize(int newSize){
