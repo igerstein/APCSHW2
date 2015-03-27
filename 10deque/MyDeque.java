@@ -1,18 +1,22 @@
+import java.util.*;
 public class MyDeque<T>{
 
     public static void main(String[]args){
-	MyDeque<Integer> a = new MyDeque<Integer>(false);
+	MyDeque<Integer> a = new MyDeque<Integer>(true);
 	a.addFirst(new Integer(1));
 	a.addFirst(new Integer(2));
 	a.addFirst(new Integer(3));
 	a.addLast(new Integer(4));
 	a.addLast(new Integer(5));
 	a.addFirst(new Integer(6));
+	a.removeFirst();
+	a.removeFirst();
+	a.removeFirst();
+	a.removeFirst();
+	a.removeFirst();
+	a.removeFirst();
 	System.out.println(a);
-	System.out.println(a.head);
-	System.out.println(a.tail);
 	System.out.println(a.size);
-	System.out.println(a.deque.length);
     }
     
     public String name(){
@@ -33,17 +37,22 @@ public class MyDeque<T>{
 
     public String toString(){
 	String ans = "[ ";
-	if (tail > head && size > 0){
+	/*if (tail > head && size > 0){
 	    for (int i = head; i <= tail; i++){
 		ans += deque[i] + ",";
 	    }
-	}else if (size > 0){
+	}else if (tail < head && size > 0){
 	    for (int i = head; i < deque.length; i++){
 		ans += deque[i] + ",";
 	    }
 	    for (int i = 0; i <= tail; i++){
 		ans += deque[i] + ",";
 	    }
+	}else if (size > 0){
+	    ans += deque[head] + ",";
+	    }*/
+	for (int i = 0; i < deque.length; i++){
+	    ans += deque[i] + ",";
 	}
 	return ans.substring(0, ans.length() - 1) + " ]";
     }
@@ -96,6 +105,50 @@ public class MyDeque<T>{
 	    deque[head] = value;
 	}
 	size++;
+    }
+  
+    public T removeLast(){
+	if (size == 0){
+	    throw new NoSuchElementException();
+	}
+	T element = (T)deque[tail];
+	tail--;
+	if (tail == -1){
+	    tail = deque.length - 1;
+	}
+	size--;
+	if (size <= deque.length / 4 && shrink){
+	    if (size == 0){
+		deque = new Object[0];
+	    }else{
+		resize(deque.length / 2);
+		head = 0;
+		tail = size - 1;
+	    }
+	}
+	return element;
+    }
+
+    public T removeFirst(){
+	if (size == 0){
+	    throw new NoSuchElementException();
+	}
+	T element = (T)deque[head];
+	head++;
+	if (head == deque.length){
+	    head = 0;
+	}
+	size--;
+	if (size <= deque.length / 4 && shrink){
+	    if (size == 0){
+		deque = new Object[0];
+	    }else{
+		resize(deque.length / 2);
+		head = 0;
+		tail = size - 1;
+	    }
+	}
+	return element;
     }
 
     public void resize(int newSize){
