@@ -6,8 +6,11 @@ public class Maze{
 	return ("\033[" + x + ";" + y + "H");
     }
 
+    private char[][] maze;
+
     /** Same constructor as before...*/
-    public Mazesolver(String filename){
+    public Maze(String filename){
+		
     }
 
     public String toString();//do not do the funky character codes
@@ -32,4 +35,13 @@ public class Maze{
     public boolean solveDFS(){
 	return solveDFS(false);
     }
+
+    /**return an array [x1,y1,x2,y2,x3,y3...]
+     *that contains the coordinates of the solution from start to end.
+     *Precondition :  solveBFS() OR solveDFS() has already been called (otherwise an empty array is returned)
+     *Postcondition:  the correct solution is in the returned array
+     */
+    public int[] solutionCoordinates(){
+    }
+    
 }
