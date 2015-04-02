@@ -3,7 +3,9 @@ import java.io.*;
 public class Maze{
     public static void main(String[]args){
 	Maze a = new Maze("data1.dat");
+	a.solveBFS(false);
 	System.out.println(a);
+	System.out.println(a.deque);
     }
 
     private static final String clear =  "\033[2J";
@@ -16,6 +18,13 @@ public class Maze{
     private char[][] maze;
     private int startx, starty;
     private int maxx, maxy;
+    private MyDeque<Coordinate> deque;
+    public void setstartx(int x){
+	startx = x;
+    }
+    public void setstarty(int y){
+	starty = y;
+    }
 
     /** Same constructor as before...*/
     public Maze(String filename){
@@ -43,8 +52,8 @@ public class Maze{
 	    char c = ans.charAt(i);
 	    maze[i % maxx][i / maxx] = c;
 	    if(c == 'S'){
-		startx = i % maxx;
-		starty = i / maxx;
+		setstartx(i % maxx);
+		setstarty(i / maxx);
 	    }
 	}
     }
@@ -66,7 +75,12 @@ public class Maze{
      * When animate is true, print the board at each step of the algorithm.
      * Replace spaces with x's as you traverse the maze. 
      */
-    //public boolean solveBFS(boolean animate){    }
+    public boolean solveBFS(boolean animate){
+	deque = new MyDeque<Coordinate>(false);
+	Coordinate start = new Coordinate(startx, starty);
+	deque.addLast(start);
+	return true;
+    }
 
     /**Solve the maze using a frontier in a DFS manner. 
      * When animate is true, print the board at each step of the algorithm.
@@ -88,5 +102,25 @@ public class Maze{
      */
     // public int[] solutionCoordinates(){
     //  }
-    
+
+    public class Coordinate{
+	private int x, y;
+	
+	public Coordinate(int x, int y){
+	    this.x = x;
+	    this.y = y;
+	}
+
+	public int getx(){
+	    return x;
+	}
+
+	public int gety(){
+	    return y;
+	}
+
+	public String toString(){
+	    return "(" + x + "," + y + ")";
+	}
+    }
 }
