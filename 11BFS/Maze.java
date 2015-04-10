@@ -3,8 +3,8 @@ import java.io.*;
 public class Maze{
     public static void main(String[]args){
 	Maze a = new Maze("data1.dat");
-	a.solveBFS(false);
-	System.out.println(a.deque);
+	System.out.println(a);
+	a.solveBFS(true);
     }
 
     private static final String clear =  "\033[2J";
@@ -61,16 +61,34 @@ public class Maze{
 	String ans = "";
 	for (int i = 0; i < maxy; i++){
 	    for (int j = 0; j < maxx; j++){
-		ans += maze[j][i] + " ";
+		ans += maze[j][i];
 	    }
 	    ans += "\n";
 	}
 	return ans;
     }
 
-    //public String toString(boolean animate); //do the funky character codes when animate is true
+    public String toString(boolean animate){ //do the funky character codes when animate is true
+	if (animate){
+	    String ans = "";
+	    for(int i = 0; i < maxx * maxy; i++){
+		if(i % maxx == 0 && i != 0){
+		    ans += "\n";
+		}
+		char c =  maze[i % maxx][i / maxx];
+		if(c == '#'){
+		    ans += c;
+		}else{
+		    ans += c;
+		}
+	    }
+	    return hide + go(0,0) + ans + "\n" + show;
+	}else{
+	    return this.toString();
+	}
+    }
 
-    public void clearMaze(){
+    public void clearMaze(boolean print){
 	LinkedList<Coordinate> list = deque.getFirst();
 	for (int i = 0; i < list.size(); i++){
 	    Coordinate current = list.get(i);
@@ -90,7 +108,9 @@ public class Maze{
 		}
 	    }
 	}
-	System.out.println(this);
+	if (print){
+	    System.out.println(this.toString(true));
+	}
     }
     
     /**Solve the maze using a frontier in a BFS manner. 
@@ -104,8 +124,10 @@ public class Maze{
 	startList.add(start);
 	deque.addLast(startList);
 	while (deque.size() > 0){
-	    wait(20);
-	    System.out.println(this);
+	    if (animate){
+		wait(20);
+		System.out.println(this.toString(true));
+	    }
 	    LinkedList<Coordinate> currentList = deque.getFirst();
 	    Coordinate current = currentList.getLast();
 	    int currentx = current.getx();
@@ -120,7 +142,7 @@ public class Maze{
 		nextList.addLast(next);
 		deque.addLast(nextList);
 		if (maze[currentx + 1][currenty] == 'E'){
-		    clearMaze();
+		    clearMaze(animate);
 		    return true;
 		}
 	    }
@@ -130,7 +152,7 @@ public class Maze{
 		nextList.addLast(next);
 		deque.addLast(nextList);
 		if (maze[currentx][currenty + 1] == 'E'){
-		    clearMaze();
+		    clearMaze(animate);
 		    return true;
 		}
 	    }
@@ -140,7 +162,7 @@ public class Maze{
 		nextList.addLast(next);
 		deque.addLast(nextList);
 		if (maze[currentx - 1][currenty] == 'E'){
-		    clearMaze();
+		    clearMaze(animate);
 		    return true;
 		}
 	    }
@@ -150,7 +172,7 @@ public class Maze{
 		nextList.addLast(next);
 		deque.addLast(nextList);
 		if (maze[currentx][currenty - 1] == 'E'){
-		    clearMaze();
+		    clearMaze(animate);
 		    return true;
 		}
 	    }
