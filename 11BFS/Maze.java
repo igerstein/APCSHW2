@@ -3,7 +3,6 @@ import java.io.*;
 public class Maze{
     public static void main(String[]args){
 	Maze a = new Maze("data1.dat");
-	System.out.println(a);
 	a.solveBFS(true);
     }
 
@@ -12,6 +11,9 @@ public class Maze{
     private static final String show =  "\033[?25h";
     private String go(int x,int y){
 	return ("\033[" + x + ";" + y + "H");
+    }
+    private String color(int foreground,int background){
+	return ("\033[0;" + foreground + ";" + background + "m");
     }
 
     private char[][] maze;
@@ -84,12 +86,15 @@ public class Maze{
 	    }
 	    return hide + go(0,0) + ans + "\n" + show;
 	}else{
-	    return this.toString();
+	    return toString();
 	}
     }
 
     public void clearMaze(boolean print){
-	LinkedList<Coordinate> list = deque.getFirst();
+	LinkedList<Coordinate> list = new LinkedList<Coordinate>();
+	if (deque.size() > 0){
+	    list = deque.getFirst();
+	}
 	for (int i = 0; i < list.size(); i++){
 	    Coordinate current = list.get(i);
 	    int currentx = current.getx();
@@ -177,6 +182,7 @@ public class Maze{
 		}
 	    }
 	}
+	clearMaze(animate);
 	return false;
     }
 
