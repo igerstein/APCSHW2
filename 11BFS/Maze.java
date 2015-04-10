@@ -12,9 +12,6 @@ public class Maze{
     private String go(int x,int y){
 	return ("\033[" + x + ";" + y + "H");
     }
-    private String color(int foreground,int background){
-	return ("\033[0;" + foreground + ";" + background + "m");
-    }
 
     private char[][] maze;
     private int startx, starty;
