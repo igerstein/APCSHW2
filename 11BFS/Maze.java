@@ -4,7 +4,6 @@ public class Maze{
     public static void main(String[]args){
 	Maze a = new Maze("data1.dat");
 	a.solveBFS(false);
-	System.out.println(a);
 	System.out.println(a.deque);
     }
 
@@ -18,7 +17,7 @@ public class Maze{
     private char[][] maze;
     private int startx, starty;
     private int maxx, maxy;
-    private MyDeque<Coordinate> deque;
+    private MyDeque<LinkedList<Coordinate>> deque;
     public void setstartx(int x){
 	startx = x;
     }
@@ -60,9 +59,9 @@ public class Maze{
 
     public String toString(){
 	String ans = "";
-	for (int i = 0; i < maxx; i++){
-	    for (int j = 0; j < maxy; j++){
-		ans += maze[i][j] + " ";
+	for (int i = 0; i < maxy; i++){
+	    for (int j = 0; j < maxx; j++){
+		ans += maze[j][i] + " ";
 	    }
 	    ans += "\n";
 	}
@@ -71,15 +70,92 @@ public class Maze{
 
     //public String toString(boolean animate); //do the funky character codes when animate is true
 
+    public void clearMaze(){
+	LinkedList<Coordinate> list = deque.getFirst();
+	for (int i = 0; i < list.size(); i++){
+	    Coordinate current = list.get(i);
+	    int currentx = current.getx();
+	    int currenty = current.gety();
+	    if (maze[currentx][currenty] == 'x'){
+		maze[currentx][currenty] = 'X';
+	    }
+	}
+	for (int i = 0; i < maxx; i++){
+	    for (int j = 0; j < maxy; j++){
+		if (maze[i][j] == 'x'){
+		    maze[i][j] = ' ';
+		}
+		if (maze[i][j] == 'X'){
+		    maze[i][j] = 'x';
+		}
+	    }
+	}
+	System.out.println(this);
+    }
+    
     /**Solve the maze using a frontier in a BFS manner. 
      * When animate is true, print the board at each step of the algorithm.
      * Replace spaces with x's as you traverse the maze. 
      */
     public boolean solveBFS(boolean animate){
-	deque = new MyDeque<Coordinate>(false);
+	deque = new MyDeque<LinkedList<Coordinate>>(false);
 	Coordinate start = new Coordinate(startx, starty);
-	deque.addLast(start);
-	return true;
+	LinkedList<Coordinate> startList = new LinkedList<Coordinate>();
+	startList.add(start);
+	deque.addLast(startList);
+	while (deque.size() > 0){
+	    wait(20);
+	    System.out.println(this);
+	    LinkedList<Coordinate> currentList = deque.getFirst();
+	    Coordinate current = currentList.getLast();
+	    int currentx = current.getx();
+	    int currenty = current.gety();
+	    if (maze[currentx][currenty] == ' '){
+		maze[currentx][currenty] = 'x';
+	    }
+	    deque.removeFirst();
+	    if (maze[currentx + 1][currenty] == ' ' || maze[currentx + 1][currenty] == 'E'){
+		Coordinate next = new Coordinate(currentx + 1, currenty);
+		LinkedList<Coordinate> nextList = (LinkedList<Coordinate>)currentList.clone();
+		nextList.addLast(next);
+		deque.addLast(nextList);
+		if (maze[currentx + 1][currenty] == 'E'){
+		    clearMaze();
+		    return true;
+		}
+	    }
+	    if (maze[currentx][currenty + 1] == ' ' || maze[currentx][currenty + 1] == 'E'){
+		Coordinate next = new Coordinate(currentx, currenty + 1);
+		LinkedList<Coordinate> nextList = (LinkedList<Coordinate>)currentList.clone();
+		nextList.addLast(next);
+		deque.addLast(nextList);
+		if (maze[currentx][currenty + 1] == 'E'){
+		    clearMaze();
+		    return true;
+		}
+	    }
+	    if (maze[currentx - 1][currenty] == ' ' || maze[currentx - 1][currenty] == 'E'){
+		Coordinate next = new Coordinate(currentx - 1, currenty);
+		LinkedList<Coordinate> nextList = (LinkedList<Coordinate>)currentList.clone();
+		nextList.addLast(next);
+		deque.addLast(nextList);
+		if (maze[currentx - 1][currenty] == 'E'){
+		    clearMaze();
+		    return true;
+		}
+	    }
+	    if (maze[currentx][currenty - 1] == ' ' || maze[currentx][currenty - 1] == 'E'){
+		Coordinate next = new Coordinate(currentx, currenty - 1);
+		LinkedList<Coordinate> nextList = (LinkedList<Coordinate>)currentList.clone();
+		nextList.addLast(next);
+		deque.addLast(nextList);
+		if (maze[currentx][currenty - 1] == 'E'){
+		    clearMaze();
+		    return true;
+		}
+	    }
+	}
+	return false;
     }
 
     /**Solve the maze using a frontier in a DFS manner. 
@@ -103,6 +179,14 @@ public class Maze{
     // public int[] solutionCoordinates(){
     //  }
 
+    public void wait(int millis){
+	try {
+	    Thread.sleep(millis);
+	}
+	catch (InterruptedException e) {
+	}
+    }
+    
     public class Coordinate{
 	private int x, y;
 	

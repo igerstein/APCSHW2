@@ -16,7 +16,11 @@ public class MyDeque<T>{
 	size = 0;
 	this.shrink = shrink;
     }
-
+    
+    public int size(){
+	return size;
+    }
+    
     public String toString(){
 	String ans = "[ ";
 	if (size > 0){
