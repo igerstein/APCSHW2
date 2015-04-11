@@ -69,19 +69,7 @@ public class Maze{
 
     public String toString(boolean animate){ //do the funky character codes when animate is true
 	if (animate){
-	    String ans = "";
-	    for(int i = 0; i < maxx * maxy; i++){
-		if(i % maxx == 0 && i != 0){
-		    ans += "\n";
-		}
-		char c =  maze[i % maxx][i / maxx];
-		if(c == '#'){
-		    ans += c;
-		}else{
-		    ans += c;
-		}
-	    }
-	    return hide + go(0,0) + ans + "\n" + show;
+	    return hide + go(0,0) + toString() + "\n" + show;
 	}else{
 	    return toString();
 	}
@@ -138,44 +126,30 @@ public class Maze{
 		maze[currentx][currenty] = 'x';
 	    }
 	    deque.removeFirst();
-	    if (maze[currentx + 1][currenty] == ' ' || maze[currentx + 1][currenty] == 'E'){
-		Coordinate next = new Coordinate(currentx + 1, currenty);
-		LinkedList<Coordinate> nextList = (LinkedList<Coordinate>)currentList.clone();
-		nextList.addLast(next);
-		deque.addLast(nextList);
-		if (maze[currentx + 1][currenty] == 'E'){
-		    clearMaze(animate);
-		    return true;
+	    int nextx, nexty;
+	    for (int i = 0; i < 4; i++){
+		if (i == 0){
+		    nextx = currentx + 1;
+		    nexty = currenty;
+		}else if (i == 1){
+		    nextx = currentx;
+		    nexty = currenty + 1;
+		}else if (i == 2){
+		    nextx = currentx - 1;
+		    nexty = currenty;
+		}else{
+		    nextx = currentx;
+		    nexty = currenty - 1;
 		}
-	    }
-	    if (maze[currentx][currenty + 1] == ' ' || maze[currentx][currenty + 1] == 'E'){
-		Coordinate next = new Coordinate(currentx, currenty + 1);
-		LinkedList<Coordinate> nextList = (LinkedList<Coordinate>)currentList.clone();
-		nextList.addLast(next);
-		deque.addLast(nextList);
-		if (maze[currentx][currenty + 1] == 'E'){
-		    clearMaze(animate);
-		    return true;
-		}
-	    }
-	    if (maze[currentx - 1][currenty] == ' ' || maze[currentx - 1][currenty] == 'E'){
-		Coordinate next = new Coordinate(currentx - 1, currenty);
-		LinkedList<Coordinate> nextList = (LinkedList<Coordinate>)currentList.clone();
-		nextList.addLast(next);
-		deque.addLast(nextList);
-		if (maze[currentx - 1][currenty] == 'E'){
-		    clearMaze(animate);
-		    return true;
-		}
-	    }
-	    if (maze[currentx][currenty - 1] == ' ' || maze[currentx][currenty - 1] == 'E'){
-		Coordinate next = new Coordinate(currentx, currenty - 1);
-		LinkedList<Coordinate> nextList = (LinkedList<Coordinate>)currentList.clone();
-		nextList.addLast(next);
-		deque.addLast(nextList);
-		if (maze[currentx][currenty - 1] == 'E'){
-		    clearMaze(animate);
-		    return true;
+		if (maze[nextx][nexty] == ' ' || maze[nextx][nexty] == 'E'){
+		    Coordinate next = new Coordinate(nextx, nexty);
+		    LinkedList<Coordinate> nextList = (LinkedList<Coordinate>)currentList.clone();
+		    nextList.addLast(next);
+		    deque.addLast(nextList);
+		    if (maze[nextx][nexty] == 'E'){
+			clearMaze(animate);
+			return true;
+		    }
 		}
 	    }
 	}
