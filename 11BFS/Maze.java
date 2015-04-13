@@ -16,7 +16,6 @@ public class Maze{
     private char[][] maze;
     private int startx, starty;
     private int maxx, maxy;
-    private MyDeque<LinkedList<Coordinate>> deque;
     public void setstartx(int x){
 	startx = x;
     }
@@ -75,7 +74,7 @@ public class Maze{
 	}
     }
 
-    public void clearMaze(boolean print){
+    /*public void clearMaze(boolean print){
 	LinkedList<Coordinate> list = new LinkedList<Coordinate>();
 	if (deque.size() > 0){
 	    list = deque.getFirst();
@@ -101,31 +100,31 @@ public class Maze{
 	if (print){
 	    System.out.println(this.toString(true));
 	}
-    }
+	}*/
     
     /**Solve the maze using a frontier in a BFS manner. 
      * When animate is true, print the board at each step of the algorithm.
      * Replace spaces with x's as you traverse the maze. 
      */
     public boolean solveBFS(boolean animate){
-	deque = new MyDeque<LinkedList<Coordinate>>(false);
+	Frontier frontier = new Frontier(0);
 	Coordinate start = new Coordinate(startx, starty);
 	LinkedList<Coordinate> startList = new LinkedList<Coordinate>();
 	startList.add(start);
-	deque.addLast(startList);
-	while (deque.size() > 0){
+	frontier.add(startList);
+	while (!frontier.isEmpty()){
 	    if (animate){
-		wait(20);
+		wait(100);
 		System.out.println(this.toString(true));
 	    }
-	    LinkedList<Coordinate> currentList = deque.getFirst();
+	    LinkedList<Coordinate> currentList = frontier.get();
 	    Coordinate current = currentList.getLast();
 	    int currentx = current.getx();
 	    int currenty = current.gety();
 	    if (maze[currentx][currenty] == ' '){
 		maze[currentx][currenty] = 'x';
 	    }
-	    deque.removeFirst();
+	    frontier.remove();
 	    int nextx, nexty;
 	    for (int i = 0; i < 4; i++){
 		if (i == 0){
@@ -145,16 +144,49 @@ public class Maze{
 		    Coordinate next = new Coordinate(nextx, nexty);
 		    LinkedList<Coordinate> nextList = (LinkedList<Coordinate>)currentList.clone();
 		    nextList.addLast(next);
-		    deque.addLast(nextList);
+		    frontier.add(nextList);
 		    if (maze[nextx][nexty] == 'E'){
-			clearMaze(animate);
+			//clearMaze(animate);
 			return true;
 		    }
 		}
 	    }
 	}
-	clearMaze(animate);
 	return false;
+    }
+
+    public class Frontier{
+	private MyDeque<LinkedList<Coordinate>> deque;
+	private int mode; // 0 = BFS, 1 = DFS
+
+	public Frontier(int mode){
+	    deque = new MyDeque<LinkedList<Coordinate>>(false);
+	    this.mode = mode;
+	}
+
+	public void add(LinkedList<Coordinate> list){
+	    deque.addLast(list);
+	}
+
+	public void remove(){
+	    if (mode == 0){
+		deque.removeFirst();
+	    }else{
+		deque.removeLast();
+	    }
+	}
+
+	public LinkedList<Coordinate> get(){
+	    if (mode == 0){
+		return deque.getFirst();
+	    }else{
+		return deque.getLast();
+	    }
+	}
+
+	public boolean isEmpty(){
+	    return deque.size() == 0;
+	}
     }
 
     /**Solve the maze using a frontier in a DFS manner. 
@@ -178,13 +210,13 @@ public class Maze{
     // public int[] solutionCoordinates(){
     //  }
 
-    public void wait(int millis){
-	try {
-	    Thread.sleep(millis);
+	public void wait(int millis){
+	    try {
+		Thread.sleep(millis);
+	    }
+	    catch (InterruptedException e) {
+	    }
 	}
-	catch (InterruptedException e) {
-	}
-    }
     
     public class Coordinate{
 	private int x, y;
