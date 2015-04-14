@@ -3,7 +3,7 @@ import java.io.*;
 public class Maze{
     public static void main(String[]args){
 	Maze a = new Maze("data1.dat");
-	a.solveBFS(true);
+	System.out.println(a.solveBFS(true));
     }
 
     private static final String clear =  "\033[2J";
@@ -74,47 +74,15 @@ public class Maze{
 	}
     }
 
-    /*public void clearMaze(boolean print){
-	LinkedList<Coordinate> list = new LinkedList<Coordinate>();
-	if (deque.size() > 0){
-	    list = deque.getFirst();
-	}
-	for (int i = 0; i < list.size(); i++){
-	    Coordinate current = list.get(i);
-	    int currentx = current.getx();
-	    int currenty = current.gety();
-	    if (maze[currentx][currenty] == 'x'){
-		maze[currentx][currenty] = 'X';
-	    }
-	}
-	for (int i = 0; i < maxx; i++){
-	    for (int j = 0; j < maxy; j++){
-		if (maze[i][j] == 'x'){
-		    maze[i][j] = ' ';
-		}
-		if (maze[i][j] == 'X'){
-		    maze[i][j] = 'x';
-		}
-	    }
-	}
-	if (print){
-	    System.out.println(this.toString(true));
-	}
-	}*/
-    
-    /**Solve the maze using a frontier in a BFS manner. 
-     * When animate is true, print the board at each step of the algorithm.
-     * Replace spaces with x's as you traverse the maze. 
-     */
-    public boolean solveBFS(boolean animate){
-	Frontier frontier = new Frontier(0);
+    public boolean solve(boolean animate, int mode){
+	Frontier frontier = new Frontier(mode);
 	Coordinate start = new Coordinate(startx, starty);
 	LinkedList<Coordinate> startList = new LinkedList<Coordinate>();
 	startList.add(start);
 	frontier.add(startList);
 	while (!frontier.isEmpty()){
 	    if (animate){
-		wait(100);
+		wait(50);
 		System.out.println(this.toString(true));
 	    }
 	    LinkedList<Coordinate> currentList = frontier.get();
@@ -146,13 +114,56 @@ public class Maze{
 		    nextList.addLast(next);
 		    frontier.add(nextList);
 		    if (maze[nextx][nexty] == 'E'){
-			//clearMaze(animate);
+			tracePath(frontier);
+			if (animate){
+			    wait(50);
+			    System.out.println(this.toString(true));
+			}
 			return true;
 		    }
 		}
 	    }
 	}
+	if (animate){
+	    wait(50);
+	    System.out.println(this.toString(true));
+	}
 	return false;
+    }
+    
+    public void tracePath(Frontier frontier){
+	LinkedList<Coordinate> list = frontier.get();
+	for (int i = 0; i < list.size(); i++){
+	    Coordinate current = list.get(i);
+	    int currentx = current.getx();
+	    int currenty = current.gety();
+	    if (maze[currentx][currenty] == 'x'){
+		maze[currentx][currenty] = '@';
+	    }
+	}
+    }
+    
+    /**Solve the maze using a frontier in a BFS manner. 
+     * When animate is true, print the board at each step of the algorithm.
+     * Replace spaces with x's as you traverse the maze. 
+     */
+    public boolean solveBFS(boolean animate){
+	return solve(animate, 0);
+    }
+   
+    /**Solve the maze using a frontier in a DFS manner. 
+     * When animate is true, print the board at each step of the algorithm.
+     * Replace spaces with x's as you traverse the maze. 
+     */
+    public boolean solveDFS(boolean animate){
+	return solve(animate, 1);
+    } 
+
+    public boolean solveBFS(){
+    	return solveBFS(false);
+    }
+    public boolean solveDFS(){
+    	return solveDFS(false);
     }
 
     public class Frontier{
@@ -188,19 +199,6 @@ public class Maze{
 	    return deque.size() == 0;
 	}
     }
-
-    /**Solve the maze using a frontier in a DFS manner. 
-     * When animate is true, print the board at each step of the algorithm.
-     * Replace spaces with x's as you traverse the maze. 
-     */
-    //public boolean solveDFS(boolean animate){    }
-
-    // public boolean solveBFS(){
-    //	return solveBFS(false);
-    //  }
-    //  public boolean solveDFS(){
-    //	return solveDFS(false);
-    //  }
 
     /**return an array [x1,y1,x2,y2,x3,y3...]
      *that contains the coordinates of the solution from start to end.
