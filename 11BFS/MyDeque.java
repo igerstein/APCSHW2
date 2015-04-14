@@ -6,6 +6,7 @@ public class MyDeque<T>{
     }
 
     private Object[] deque;
+    private int[] priorities;
     private int head;
     private int tail;
     private int size;
@@ -91,6 +92,34 @@ public class MyDeque<T>{
 	}
 	size++;
     }
+
+    public void add(T value, int priority){
+	if (size == 0){
+	    deque = new Object[1];
+	    priorities = new int[1];
+	    deque[0] = value;
+	    priorities[0] = priority;
+	    head = 0;
+	    tail = 0;
+	}else{
+	    tail++;
+	    if (tail == deque.length){
+		tail = 0;
+	    }
+	    if (head == tail){
+		tail--;
+		if (tail == -1){
+		    tail = deque.length - 1;
+		}
+		resize(size * 2);
+		head = 0;
+		tail = size;
+	    }
+	    deque[tail] = value;
+	    priorities[tail] = priority;
+	}
+	size++;
+    }
   
     public T removeLast(){
 	if (size == 0){
@@ -124,7 +153,7 @@ public class MyDeque<T>{
 	    head = 0;
 	}
 	size--;
-	if (size <= deque.length / 4 && shrink){
+	if (size <= deque.length / 4 && size > 10 && shrink){
 	    if (size == 0){
 		deque = new Object[0];
 	    }else{
