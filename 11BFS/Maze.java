@@ -1,11 +1,6 @@
 import java.util.*;
 import java.io.*;
 public class Maze{
-    public static void main(String[]args){
-	Maze a = new Maze("data1.dat");
-	System.out.println(a.solveBFS(true));
-    }
-
     private static final String clear =  "\033[2J";
     private static final String hide =  "\033[?25l";
     private static final String show =  "\033[?25h";
@@ -14,6 +9,7 @@ public class Maze{
     }
 
     private char[][] maze;
+    private int[] solutionArray = new int[0];
     private int startx, starty;
     private int maxx, maxy;
     public void setstartx(int x){
@@ -133,10 +129,13 @@ public class Maze{
     
     public void tracePath(Frontier frontier){
 	LinkedList<Coordinate> list = frontier.get();
+	solutionArray = new int[list.size() * 2];
 	for (int i = 0; i < list.size(); i++){
 	    Coordinate current = list.get(i);
 	    int currentx = current.getx();
 	    int currenty = current.gety();
+	    solutionArray[i * 2] = currentx;
+	    solutionArray[i * 2 + 1] = currenty;
 	    if (maze[currentx][currenty] == 'x'){
 		maze[currentx][currenty] = '@';
 	    }
@@ -164,6 +163,23 @@ public class Maze{
     }
     public boolean solveDFS(){
     	return solveDFS(false);
+    }
+
+    /**return an array [x1,y1,x2,y2,x3,y3...]
+     *that contains the coordinates of the solution from start to end.
+     *Precondition :  solveBFS() OR solveDFS() has already been called (otherwise an empty array is returned)
+     *Postcondition:  the correct solution is in the returned array
+     */
+    public int[] solutionCoordinates(){
+	return solutionArray;
+    }
+
+    public void wait(int millis){
+	try {
+	    Thread.sleep(millis);
+	}
+	catch (InterruptedException e) {
+	}
     }
 
     public class Frontier{
@@ -199,22 +215,6 @@ public class Maze{
 	    return deque.size() == 0;
 	}
     }
-
-    /**return an array [x1,y1,x2,y2,x3,y3...]
-     *that contains the coordinates of the solution from start to end.
-     *Precondition :  solveBFS() OR solveDFS() has already been called (otherwise an empty array is returned)
-     *Postcondition:  the correct solution is in the returned array
-     */
-    // public int[] solutionCoordinates(){
-    //  }
-
-	public void wait(int millis){
-	    try {
-		Thread.sleep(millis);
-	    }
-	    catch (InterruptedException e) {
-	    }
-	}
     
     public class Coordinate{
 	private int x, y;
