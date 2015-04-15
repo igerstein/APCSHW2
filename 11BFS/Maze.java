@@ -64,7 +64,7 @@ public class Maze{
 
     public String toString(boolean animate){ //do the funky character codes when animate is true
 	if (animate){
-	    return hide + go(0,0) + toString() + "\n" + show;
+	    return clear + hide + go(0,0) + toString() + "\n" + show;
 	}else{
 	    return toString();
 	}
@@ -105,6 +105,9 @@ public class Maze{
 		    nexty = currenty - 1;
 		}
 		if (maze[nextx][nexty] == ' ' || maze[nextx][nexty] == 'E'){
+		    if (maze[nextx][nexty] == ' '){
+			maze[nextx][nexty] = 'x';
+		    }
 		    Coordinate next = new Coordinate(nextx, nexty);
 		    LinkedList<Coordinate> nextList = (LinkedList<Coordinate>)currentList.clone();
 		    nextList.addLast(next);
