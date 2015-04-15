@@ -6,7 +6,7 @@ public class MyDeque<T>{
     }
 
     private Object[] deque;
-    private int[] priorities;
+    private int[] priorities = new int[0];
     private int head;
     private int tail;
     private int size;
@@ -23,24 +23,6 @@ public class MyDeque<T>{
     }
     
     public String toString(){
-	/*String ans = "[ ";
-	if (size > 0){
-	    if (tail > head){
-		for (int i = head; i <= tail; i++){
-		    ans += deque[i] + ",";
-		}
-	    }else if (tail < head){
-		for (int i = head; i < deque.length; i++){
-		    ans += deque[i] + ",";
-		}
-		for (int i = 0; i <= tail; i++){
-		    ans += deque[i] + ",";
-		}
-	    }else{
-		ans += deque[head] + ",";
-	    }
-	}
-	return ans.substring(0, ans.length() - 1) + " ]";*/
 	String ans = "[ ";
 	if (size > 0){
 	    if (tail > head){
@@ -56,23 +38,6 @@ public class MyDeque<T>{
 		}
 	    }else{
 		ans += deque[head] + ",";
-	    }
-	}
-	ans = ans.substring(0, ans.length() - 1) + " ]\n[ ";
-	if (size > 0){
-	    if (tail > head){
-		for (int i = head; i <= tail; i++){
-		    ans += priorities[i] + ",";
-		}
-	    }else if (tail < head){
-		for (int i = head; i < priorities.length; i++){
-		    ans += priorities[i] + ",";
-		}
-		for (int i = 0; i <= tail; i++){
-		    ans += priorities[i] + ",";
-		}
-	    }else{
-		ans += priorities[head] + ",";
 	    }
 	}
 	return ans.substring(0, ans.length() - 1) + " ]";
@@ -276,28 +241,40 @@ public class MyDeque<T>{
 
     public void resize(int newSize){
 	Object[] newDeque = new Object[newSize];
+	boolean priority = false;
+	if (priorities.length > 0){
+	    priority = true;
+	}
 	int[] newPriorities = new int[newSize];
 	int c = 0;
 	if (tail < head){
 	    for (int i = head; i < deque.length; i++){
 		newDeque[c] = deque[i];
-		newPriorities[c] = priorities[i];
+		if (priority){
+		    newPriorities[c] = priorities[i];
+		}
 		c++;
 	    }
 	    for (int i = 0; i <= tail; i++){
 		newDeque[c] = deque[i];
-		newPriorities[c] = priorities[i];
+		if (priority){
+		    newPriorities[c] = priorities[i];
+		}
 		c++;
 	    }
 	}else{
 	    for (int i = head; i <= tail; i++){
 		newDeque[c] = deque[i];
-		newPriorities[c] = priorities[i];
+		if (priority){
+		    newPriorities[c] = priorities[i];
+		}
 		c++;
 	    }
 	}
 	deque = newDeque;
-	priorities = newPriorities;
+	if (priority){
+	    priorities = newPriorities;
+	}
     }
 }
     
