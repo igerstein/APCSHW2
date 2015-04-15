@@ -131,7 +131,7 @@ public class Maze{
     }
     
     public void tracePath(Frontier frontier){
-	LinkedList<Coordinate> list = frontier.get();
+	LinkedList<Coordinate> list = frontier.deque.getLast();
 	solutionArray = new int[list.size() * 2];
 	for (int i = 0; i < list.size(); i++){
 	    Coordinate current = list.get(i);
