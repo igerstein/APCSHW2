@@ -1,6 +1,13 @@
 import java.util.*;
 import java.io.*;
 public class Maze{
+
+    public static void main(String[]args){
+	Maze a = new Maze("data1.dat");
+	a.solveBest(true);
+	System.out.println(Arrays.toString(a.solutionArray));
+    }
+    
     private static final String clear =  "\033[2J";
     private static final String hide =  "\033[?25l";
     private static final String show =  "\033[?25h";
@@ -11,12 +18,19 @@ public class Maze{
     private char[][] maze;
     private int[] solutionArray = new int[0];
     private int startx, starty;
+    private int endx, endy;
     private int maxx, maxy;
     public void setstartx(int x){
 	startx = x;
     }
     public void setstarty(int y){
 	starty = y;
+    }
+    public void setendx(int x){
+	endx = x;
+    }
+    public void setendy(int y){
+	endy = y;
     }
 
     /** Same constructor as before...*/
@@ -47,6 +61,10 @@ public class Maze{
 	    if(c == 'S'){
 		setstartx(i % maxx);
 		setstarty(i / maxx);
+	    }
+	    if (c == 'E'){
+		setendx(i % maxx);
+		setendy(i / maxx);
 	    }
 	}
     }
@@ -81,14 +99,13 @@ public class Maze{
 		wait(50);
 		System.out.println(this.toString(true));
 	    }
-	    LinkedList<Coordinate> currentList = frontier.get();
+	    LinkedList<Coordinate> currentList = frontier.remove();
 	    Coordinate current = currentList.getLast();
 	    int currentx = current.getx();
 	    int currenty = current.gety();
 	    if (maze[currentx][currenty] == ' '){
 		maze[currentx][currenty] = 'x';
 	    }
-	    frontier.remove();
 	    int nextx, nexty;
 	    for (int i = 0; i < 4; i++){
 		if (i == 0){
@@ -144,28 +161,28 @@ public class Maze{
 	    }
 	}
     }
-    
-    /**Solve the maze using a frontier in a BFS manner. 
-     * When animate is true, print the board at each step of the algorithm.
-     * Replace spaces with x's as you traverse the maze. 
-     */
+
     public boolean solveBFS(boolean animate){
 	return solve(animate, 0);
     }
    
-    /**Solve the maze using a frontier in a DFS manner. 
-     * When animate is true, print the board at each step of the algorithm.
-     * Replace spaces with x's as you traverse the maze. 
-     */
     public boolean solveDFS(boolean animate){
 	return solve(animate, 1);
-    } 
+    }
+
+    public boolean solveBest(boolean animate){
+	return solve(animate, 2);
+    }
 
     public boolean solveBFS(){
     	return solveBFS(false);
     }
     public boolean solveDFS(){
     	return solveDFS(false);
+    }
+
+    public boolean solveBest(){
+	return solveBest(false);
     }
 
     /**return an array [x1,y1,x2,y2,x3,y3...]
@@ -187,7 +204,7 @@ public class Maze{
 
     public class Frontier{
 	private MyDeque<LinkedList<Coordinate>> deque;
-	private int mode; // 0 = BFS, 1 = DFS
+	private int mode; // 0 = BFS, 1 = DFS, 2 = Best, 3 = AStar
 
 	public Frontier(int mode){
 	    deque = new MyDeque<LinkedList<Coordinate>>(false);
@@ -195,22 +212,21 @@ public class Maze{
 	}
 
 	public void add(LinkedList<Coordinate> list){
-	    deque.addLast(list);
-	}
-
-	public void remove(){
-	    if (mode == 0){
-		deque.removeFirst();
-	    }else{
-		deque.removeLast();
+	    if (mode == 0 || mode == 1){
+		deque.addLast(list);
+	    }else if (mode == 2){
+		Coordinate current = list.getLast();
+		deque.add(list, Math.abs(current.getx() - endx) + Math.abs(current.gety() - endy));
 	    }
 	}
 
-	public LinkedList<Coordinate> get(){
+	public LinkedList<Coordinate> remove(){
 	    if (mode == 0){
-		return deque.getFirst();
+		return deque.removeFirst();
+	    }else if (mode == 1){
+		return deque.removeLast();
 	    }else{
-		return deque.getLast();
+		return deque.removeSmallest();
 	    }
 	}
 
