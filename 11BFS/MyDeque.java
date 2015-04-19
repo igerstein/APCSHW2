@@ -1,6 +1,5 @@
 import java.util.*;
-public class MyDeque<T>{
-    
+public class MyDeque<T>{	
     public String name(){
 	return "gerstein.isaac";
     }
@@ -24,23 +23,30 @@ public class MyDeque<T>{
     
     public String toString(){
 	String ans = "[ ";
+	String ans2 = "[ ";
 	if (size > 0){
 	    if (tail > head){
 		for (int i = head; i <= tail; i++){
 		    ans += deque[i] + ",";
+		    ans2 += priorities[i] + ",";
 		}
 	    }else if (tail < head){
 		for (int i = head; i < deque.length; i++){
 		    ans += deque[i] + ",";
+		    ans2 += priorities[i] + ",";
 		}
 		for (int i = 0; i <= tail; i++){
 		    ans += deque[i] + ",";
+		    ans2 += priorities[i] + ",";
 		}
 	    }else{
 		ans += deque[head] + ",";
+		ans2 += priorities[head] + ",";
 	    }
 	}
-	return ans.substring(0, ans.length() - 1) + " ]";
+	ans = ans.substring(0, ans.length() - 1) + " ]\n";
+	ans2 = ans2.substring(0, ans2.length() - 1) + " ]";
+	return ans + ans2;
     }
     
     public void addLast(T value){
@@ -193,29 +199,14 @@ public class MyDeque<T>{
 	    }
 	}
 	T element = (T)deque[indexSmallest];
-	if (tail < indexSmallest){
-	    for (int i = indexSmallest; i < deque.length; i++){
-		if (i == deque.length - 1){
-		    deque[i] = deque[0];
-		    priorities[i] = priorities[0];
-		}else{
-		    deque[i] = deque[i + 1];
-		    priorities[i] = priorities[i + 1];
-		}
-	    }
-	    for (int i = 0; i < tail; i++){
-		deque[i] = deque[i + 1];
-		priorities[i] = priorities[i + 1];
-	    }
-	}else{
-	    for (int i = indexSmallest; i < tail; i++){
-		deque[i] = deque[i + 1];
-		priorities[i] = priorities[i + 1];
-	    }
-	}
+	deque[indexSmallest] = deque[tail];
+	priorities[indexSmallest] = priorities[tail];
 	deque[tail] = null;
 	priorities[tail] = 0;
 	tail--;
+	if (tail == -1){
+	    tail = deque.length - 1;
+	}
 	size--;
 	if (size <= deque.length / 4 && size > 10 && shrink){
 	    resize(deque.length / 2);
