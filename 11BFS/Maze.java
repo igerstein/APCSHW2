@@ -1,13 +1,6 @@
 import java.util.*;
 import java.io.*;
 public class Maze{
-
-    public static void main(String[]args){
-	Maze a = new Maze("data1.dat");
-	a.solveBest(true);
-	System.out.println(Arrays.toString(a.solutionArray));
-    }
-    
     private static final String clear =  "\033[2J";
     private static final String hide =  "\033[?25l";
     private static final String show =  "\033[?25h";
@@ -174,6 +167,10 @@ public class Maze{
 	return solve(animate, 2);
     }
 
+    public boolean solveAStar(boolean animate){
+	return solve(animate, 3);
+    }
+
     public boolean solveBFS(){
     	return solveBFS(false);
     }
@@ -183,6 +180,10 @@ public class Maze{
 
     public boolean solveBest(){
 	return solveBest(false);
+    }
+
+    public boolean solveAStar(){
+	return solveAStar(false);
     }
 
     /**return an array [x1,y1,x2,y2,x3,y3...]
@@ -217,6 +218,9 @@ public class Maze{
 	    }else if (mode == 2){
 		Coordinate current = list.getLast();
 		deque.add(list, Math.abs(current.getx() - endx) + Math.abs(current.gety() - endy));
+	    }else{
+		Coordinate current = list.getLast();
+		deque.add(list, Math.abs(current.getx() - endx) + Math.abs(current.gety() - endy) + list.size());
 	    }
 	}
 
