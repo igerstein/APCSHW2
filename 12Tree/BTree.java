@@ -16,6 +16,12 @@ public class BTree<E> {
     }
 
     private void add(TreeNode<E> curr, TreeNode<E> bn) {
+	if (curr.getLeft() != null){
+	    curr.setLeft(bn);
+	}else if (curr.getRight() != null){
+	    curr.setRight(bn);
+	}else{
+	}
     }
     
     public void traverse(int mode) {
