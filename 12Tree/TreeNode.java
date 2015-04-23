@@ -5,6 +5,8 @@ public class TreeNode<E>{
 
     public TreeNode(E data){
 	this.data = data;
+	left = null;
+	right = null;
     }
 
     public String toString(){
