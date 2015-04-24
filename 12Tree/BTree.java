@@ -16,11 +16,25 @@ public class BTree<E> {
     }
 
     private void add(TreeNode<E> curr, TreeNode<E> bn) {
-	if (curr.getLeft() != null){
+	Random r = new Random();
+	if (curr.getLeft() == null && curr.getRight() == null){
+	    int randomInt = r.nextInt(2);
+	    if (randomInt == 0){
+		curr.setLeft(bn);
+	    }else{
+		curr.setRight(bn);
+	    }
+	}else if (curr.getLeft() == null){
 	    curr.setLeft(bn);
-	}else if (curr.getRight() != null){
+	}else if (curr.getRight() == null){
 	    curr.setRight(bn);
 	}else{
+	    int randomInt = r.nextInt(2);
+	    if (randomInt == 0){
+		add(curr.getLeft(), bn);
+	    }else{
+		add(curr.getRight(), bn);
+	    }
 	}
     }
     
