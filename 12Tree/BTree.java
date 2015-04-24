@@ -50,6 +50,13 @@ public class BTree<E> {
     }
  
     public void preOrder(TreeNode<E> curr) {
+	System.out.println(curr);
+	if (curr.getLeft() != null){
+	    preOrder(curr.getLeft());
+	}
+	if (curr.getRight != null){
+	    preOrder(curr.getRight());
+	}
     }
 
     public void inOrder(TreeNode<E> curr) {
