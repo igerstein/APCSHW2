@@ -6,7 +6,7 @@ public class BTree<E> {
     public static final int POST_ORDER = 2;
     
     private TreeNode<E> root;
-    Random r = new Random(3);
+    Random r = new Random();
 
     public BTree() {
 	root = null;
@@ -88,7 +88,21 @@ public class BTree<E> {
     }
  
     public int getHeight(TreeNode<E> curr) {
-	return -1;
+	if (curr.getLeft() == null && curr.getRight() == null){
+	    return 1;
+	}else if (curr.getLeft() == null){
+	    return 1 + getHeight(curr.getRight());
+	}else if (curr.getRight() == null){
+	    return 1 + getHeight(curr.getLeft());
+	}else{
+	    int leftHeight = getHeight(curr.getLeft());
+	    int rightHeight = getHeight(curr.getRight());
+	    if (leftHeight > rightHeight){
+		return 1 + leftHeight;
+	    }else{
+		return 1 + rightHeight;
+	    }
+	}
     }
 
     private String getLevel(TreeNode<E> curr, int level) {
@@ -108,7 +122,7 @@ public class BTree<E> {
 	a.root.getLeft().setRight(new TreeNode<Integer>(5));
 	a.root.getRight().setLeft(new TreeNode<Integer>(6));
 	a.root.getRight().setRight(new TreeNode<Integer>(7));
-	a.traverse(POST_ORDER);
+	System.out.println(a.getHeight());
     }
     
     /*public static void main String[] args) {
