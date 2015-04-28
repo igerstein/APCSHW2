@@ -108,42 +108,19 @@ public class BTree<E> {
     private String getLevel(TreeNode<E> curr, int level) {
 	if (curr != null){
 	    if (level == 0){
-		return curr.toString();
+		return curr.toString() + " ";
 	    }else{
-		return getLevel(curr.getLeft(), level - 1) + " " + getLevel(curr.getRight(), level - 1);
+		return getLevel(curr.getLeft(), level - 1) + getLevel(curr.getRight(), level - 1);
 	    }
 	}
 	return "";
     }
 
     public String toString() {
-	return "";
-    }
-
-    public static void main(String[]args){
-	BTree<Integer> a = new BTree<Integer>();
-	a.add(1);
-	a.root.setLeft(new TreeNode<Integer>(2));
-	a.root.setRight(new TreeNode<Integer>(3));
-	a.root.getLeft().setLeft(new TreeNode<Integer>(4));
-	a.root.getLeft().setRight(new TreeNode<Integer>(5));
-	a.root.getRight().setLeft(new TreeNode<Integer>(6));
-	a.root.getRight().setRight(new TreeNode<Integer>(7));
-	System.out.println(a.getLevel(a.root, 2));
-    }
-    
-    /*public static void main String[] args) {
-	BTree<Integer> t = new BTree<Integer>();
-	for (int i = 0;i < 8;i++){
-	    t.add( i );
+	String ans = "";
+	for (int i = 0; i < getHeight(); i++){
+	    ans += getLevel(root, i) + "\n";
 	}
-	System.out.println( "Pre-order: ");
-	t.traverse( PRE_ORDER );
-	System.out.println( "In-order: ");
-	t.traverse( IN_ORDER );
-	System.out.println( "Post-order: ");
-	t.traverse( POST_ORDER );
-	System.out.println( "Height: " + t.getHeight() );
-	System.out.println( t );
-	}*/
+	return ans.substring(0, ans.length() - 2);
+    }
 }
