@@ -1,22 +1,7 @@
 import java.io.*;
 import java.util.*;
 
-public class BSTree <T extends Comparable> {
-   
-    public static void main( String[] args ) {
-	BSTree<Integer> a = new BSTree<Integer>();
-	a.add(new Integer(3));
-	a.add(new Integer(1));
-	a.add(new Integer(-6));
-	a.add(new Integer(7));
-	a.add(new Integer(4));
-	a.add(new Integer(2));
-	a.add(new Integer(-4));
-	a.add(new Integer(-2));
-	a.add(new Integer(8));
-	System.out.println(a);
-    }
-    
+public class BSTree <T extends Comparable> {    
     private BSTreeNode<T> root;
 
     public BSTree() {
@@ -77,7 +62,52 @@ public class BSTree <T extends Comparable> {
       curr, if it exists.
       ====================*/
     private BSTreeNode<T> remove( BSTreeNode<T> curr, T c ) {
-	return null;
+	if (curr == null){
+	    return null;
+	}else if (curr.getData().compareTo(c) == 0){
+	    if (curr.getLeft() == null && curr.getRight() == null){
+		return null;
+	    }else if (curr.getRight() == null){
+		return curr.getLeft();
+	    }else if (curr.getLeft() == null){
+		return curr.getRight();
+	    }else{
+		curr.setData(findLargest(curr.getLeft()).getData());
+		curr.setLeft(remove(curr.getLeft(), findLargest(curr.getLeft()).getData()));
+	    }
+	}else if (curr.getLeft() != null && curr.getLeft().getData().compareTo(c) == 0){
+	    if (curr.getLeft().getLeft() == null && curr.getLeft().getRight() == null){
+		curr.setLeft(null);
+	    }else if (curr.getLeft().getRight() == null){
+		curr.setLeft(curr.getLeft().getLeft());
+	    }else if (curr.getLeft().getLeft() == null){
+		curr.setLeft(curr.getLeft().getRight());
+	    }else{
+		curr.getLeft().setData(findLargest(curr.getLeft().getLeft()).getData());
+		curr.getLeft().setLeft(remove(curr.getLeft().getLeft(), findLargest(curr.getLeft().getLeft()).getData()));
+	    }
+	}else if (curr.getRight() != null && curr.getRight().getData().compareTo(c) == 0){
+	    if (curr.getRight().getLeft() == null && curr.getRight().getRight() == null){
+		curr.setRight(null);
+	    }else if (curr.getRight().getRight() == null){
+		curr.setRight(curr.getRight().getLeft());
+	    }else if (curr.getRight().getLeft() == null){
+		curr.setRight(curr.getRight().getRight());
+	    }else{
+		curr.getRight().setData(findLargest(curr.getRight().getLeft()).getData());
+		curr.getRight().setLeft(remove(curr.getRight().getLeft(), findLargest(curr.getRight().getLeft()).getData()));
+	    }
+	}
+	curr.setLeft(remove(curr.getLeft(), c));
+	curr.setRight(remove(curr.getRight(), c));
+	return curr;
+    }
+
+    private BSTreeNode<T> findLargest(BSTreeNode<T> curr){
+	while (curr.getRight() != null){
+	    curr = curr.getRight();
+	}
+	return curr;
     }
 
 
