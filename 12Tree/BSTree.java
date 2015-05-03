@@ -2,7 +2,21 @@ import java.io.*;
 import java.util.*;
 
 public class BSTree <T extends Comparable> {
-
+   
+    public static void main( String[] args ) {
+	BSTree<Integer> a = new BSTree<Integer>();
+	a.add(new Integer(3));
+	a.add(new Integer(1));
+	a.add(new Integer(-6));
+	a.add(new Integer(7));
+	a.add(new Integer(4));
+	a.add(new Integer(2));
+	a.add(new Integer(-4));
+	a.add(new Integer(-2));
+	a.add(new Integer(8));
+	System.out.println(a);
+    }
+    
     private BSTreeNode<T> root;
 
     public BSTree() {
@@ -37,12 +51,11 @@ public class BSTree <T extends Comparable> {
 	if (curr == null){
 	    return t;
 	}else if (t.getData().compareTo(curr.getData()) < 0){
-	    curr.setLeft(add(root.getLeft(), t));
-	    return curr;
+	    curr.setLeft(add(curr.getLeft(), t));
 	}else{
-	    curr.setRight(add(root.getRight(), t));
-	    return curr;
+	    curr.setRight(add(curr.getRight(), t));
 	}
+	return curr;
     }
 
     /*======== public void remove() ==========
@@ -92,13 +105,6 @@ public class BSTree <T extends Comparable> {
 	inOrderHelper( t.getLeft() );
 	System.out.print( t.getData() + " ");
 	inOrderHelper( t.getRight() );
-    }
-
-   
-    public static void main( String[] args ) {
-	BSTree<Integer> a = new BSTree<Integer>();
-	a.add(new Integer(3));
-	System.out.println(a);
     }
 
     /**
