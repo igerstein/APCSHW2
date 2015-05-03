@@ -8,6 +8,10 @@ public class Maze{
 	return ("\033[" + x + ";" + y + "H");
     }
 
+    public String name(){
+	return "gerstein.isaac";
+    }
+    
     private char[][] maze;
     private int[] solutionArray = new int[0];
     private int startx, starty;
