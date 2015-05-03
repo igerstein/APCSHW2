@@ -4,6 +4,10 @@ import java.util.*;
 public class BSTree <T extends Comparable> {    
     private BSTreeNode<T> root;
 
+    public String name(){
+	return "gerstein.isaac";
+    }
+    
     public BSTree() {
 	root = null;
     }

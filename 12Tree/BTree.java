@@ -4,6 +4,10 @@ public class BTree<E> {
     public static final int PRE_ORDER = 0;
     public static final int IN_ORDER = 1;
     public static final int POST_ORDER = 2;
+
+    public String name(){
+	return "gerstein.isaac";
+    }
     
     private TreeNode<E> root;
     Random r = new Random();
