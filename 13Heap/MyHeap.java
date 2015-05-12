@@ -13,12 +13,12 @@ public class MyHeap{
     }
 
     public MyHeap(){
-	heap = new int[1];
+	heap = new int[2];
 	isMax = true;
     }
 
     public MyHeap(boolean isMax){
-	heap = new int[1];
+	heap = new int[2];
 	this.isMax = isMax;
     }
 
@@ -31,9 +31,20 @@ public class MyHeap{
     }
 
     public void add(int value){
+	if (heap.length - 1 == heap[0]){
+	    resize(heap.length * 2 - 1);
+	}
     }
 
     public int peek(){
 	return 0;
+    }
+
+    public void resize(int newSize){
+	int[] newHeap = new int[newSize];
+	for (int i = 0; i < heap.length; i++){
+	    newHeap[i] = heap[i];
+	}
+	heap = newHeap;
     }
 }
