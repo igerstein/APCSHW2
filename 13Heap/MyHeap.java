@@ -1,16 +1,29 @@
-public class MyHeap{    
+import java.util.*;
+public class MyHeap{
+    public static void main(String[]args){
+	MyHeap a = new MyHeap();
+	System.out.println(a);
+    }
+
+    private int[] heap;
+    private boolean isMax;
+
     public String name(){
 	return "gerstein.isaac";
     }
 
     public MyHeap(){
+	heap = new int[1];
+	isMax = true;
     }
 
     public MyHeap(boolean isMax){
+	heap = new int[1];
+	this.isMax = isMax;
     }
 
     public String toString(){
-	return "";
+	return Arrays.toString(heap);
     }
 
     public int remove(){
