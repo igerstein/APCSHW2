@@ -1,16 +1,5 @@
 import java.util.*;
 public class MyHeap{
-    public static void main(String[]args){
-	MyHeap a = new MyHeap(false);
-	a.add(3);
-	a.add(4);
-	a.add(5);
-	a.add(5);
-	a.add(4);
-	a.add(6);
-	System.out.println(a);
-    }
-
     private int[] heap;
     private boolean isMax;
 
@@ -34,7 +23,7 @@ public class MyHeap{
 
     public int remove(){
 	if (heap[0] == 0){
-	    throw new IndexOutOfBoundsException();
+	    throw new NoSuchElementException();
 	}
 	int root = heap[1];
 	heap[1] = heap[heap[0]];
@@ -99,7 +88,7 @@ public class MyHeap{
 
     public int peek(){
 	if (heap[0] == 0){
-	    throw new IndexOutOfBoundsException();
+	    throw new NoSuchElementException();
 	}
 	return heap[1];
     }
