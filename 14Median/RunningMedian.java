@@ -11,6 +11,11 @@ public class RunningMedian{
     }
 
     public void add(int value){
+	if (value < getMedian()){
+	    smaller.add(value);
+	}else{
+	    larger.add(value);
+	}
     }
 
     public double getMedian(){
