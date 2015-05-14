@@ -100,4 +100,8 @@ public class MyHeap{
 	}
 	heap = newHeap;
     }
+
+    public int size(){
+	return heap[0];
+    }
 }
