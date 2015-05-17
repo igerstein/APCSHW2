@@ -11,10 +11,15 @@ public class RunningMedian{
     }
 
     public void add(int value){
-	if (value < getMedian()){
+	if ((smaller.size() == 0 && larger.size() == 0) || value < getMedian()){
 	    smaller.add(value);
 	}else{
 	    larger.add(value);
+	}
+	if (smaller.size() > larger.size() + 1){
+	    larger.add(smaller.remove());
+	}else if (larger.size() > smaller.size() + 1){
+	    smaller.add(larger.remove());
 	}
     }
 
