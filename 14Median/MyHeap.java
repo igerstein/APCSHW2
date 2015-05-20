@@ -1,4 +1,5 @@
 import java.util.*;
+import java.lang.*;
 public class MyHeap{
     private int[] heap;
     private boolean isMax;
@@ -6,7 +7,7 @@ public class MyHeap{
     public String name(){
 	return "gerstein.isaac";
     }
-
+    
     public MyHeap(){
 	heap = new int[10];
 	isMax = true;
@@ -18,9 +19,28 @@ public class MyHeap{
     }
 
     public String toString(){
-	return Arrays.toString(heap);
+	//return Arrays.toString(heap);
+	String ans = "";
+	int height = (int)(Math.log(heap[0]) / Math.log(2));
+	int maxRowLen = (int)Math.pow(2, height) * 4;
+	int index = 1;
+	for (int i = 0; i <= height; i++){
+	    int rowSpaceLen = maxRowLen / (int)Math.pow(2, i + 1);
+	    for (int l = 0; l < rowSpaceLen - Math.pow(2, height - i); l++){
+		ans += " ";
+	    }
+	    for (int j = 0; j < Math.pow(2, i) && index <= heap[0]; j++){
+		ans += heap[index];
+		index++;
+		for (int k = 0; k < rowSpaceLen; k++){
+		    ans += " ";
+		}
+	    }
+	    ans += "\n";
+	}
+	return ans;
     }
-
+    
     public int remove(){
 	if (heap[0] == 0){
 	    throw new NoSuchElementException();
@@ -32,31 +52,41 @@ public class MyHeap{
 	int pos = 1;
 	if (isMax){
 	    while ((pos * 2 <= heap[0] && heap[pos] < heap[pos * 2]) || (pos * 2 + 1 <= heap[0] && heap[pos] < heap[pos * 2 + 1])){
-		if (heap[pos] < heap[pos * 2]){
-		    int temp = heap[pos * 2];
-		    heap[pos * 2] = heap[pos];
-		    heap[pos] = temp;
-		    pos *= 2;
+		int next = 0;
+		if ((pos * 2 <= heap[0] && heap[pos] < heap[pos * 2]) && (pos * 2 + 1 <= heap[0] && heap[pos] < heap[pos * 2 + 1])){
+		    if (heap[pos * 2] < heap[pos * 2 + 1]){
+			next = pos * 2 + 1;
+		    }else{
+			next = pos * 2;
+		    }
+		}else if (pos * 2 <= heap[0] && heap[pos] < heap[pos * 2]){
+		    next = pos * 2;
 		}else{
-		    int temp = heap[pos * 2 + 1];
-		    heap[pos * 2 + 1] = heap[pos];
-		    heap[pos] = temp;
-		    pos = pos * 2 + 1;
+		    next = pos * 2 + 1;
 		}
+		int temp = heap[next];
+		heap[next] = heap[pos];
+		heap[pos] = temp;
+		pos = next;
 	    }
 	}else{
 	    while ((pos * 2 <= heap[0] && heap[pos] > heap[pos * 2]) || (pos * 2 + 1 <= heap[0] && heap[pos] > heap[pos * 2 + 1])){
-		if (heap[pos] > heap[pos * 2]){
-		    int temp = heap[pos * 2];
-		    heap[pos * 2] = heap[pos];
-		    heap[pos] = temp;
-		    pos *= 2;
+		int next = 0;
+		if ((pos * 2 <= heap[0] && heap[pos] > heap[pos * 2]) && (pos * 2 + 1 <= heap[0] && heap[pos] > heap[pos * 2 + 1])){
+		    if (heap[pos * 2] > heap[pos * 2 + 1]){
+			next = pos * 2 + 1;
+		    }else{
+			next = pos * 2;
+		    }
+		}else if (pos * 2 <= heap[0] && heap[pos] > heap[pos * 2]){
+		    next = pos * 2;
 		}else{
-		    int temp = heap[pos * 2 + 1];
-		    heap[pos * 2 + 1] = heap[pos];
-		    heap[pos] = temp;
-		    pos = pos * 2 + 1;
+		    next = pos * 2 + 1;
 		}
+		int temp = heap[next];
+		heap[next] = heap[pos];
+		heap[pos] = temp;
+		pos = next;
 	    }
 	}
 	return root;
