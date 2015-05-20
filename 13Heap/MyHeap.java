@@ -7,7 +7,7 @@ public class MyHeap{
     public String name(){
 	return "gerstein.isaac";
     }
-
+    
     public MyHeap(){
 	heap = new int[10];
 	isMax = true;
@@ -52,31 +52,41 @@ public class MyHeap{
 	int pos = 1;
 	if (isMax){
 	    while ((pos * 2 <= heap[0] && heap[pos] < heap[pos * 2]) || (pos * 2 + 1 <= heap[0] && heap[pos] < heap[pos * 2 + 1])){
-		if (heap[pos] < heap[pos * 2]){
-		    int temp = heap[pos * 2];
-		    heap[pos * 2] = heap[pos];
-		    heap[pos] = temp;
-		    pos *= 2;
+		int next = 0;
+		if ((pos * 2 <= heap[0] && heap[pos] < heap[pos * 2]) && (pos * 2 + 1 <= heap[0] && heap[pos] < heap[pos * 2 + 1])){
+		    if (heap[pos * 2] < heap[pos * 2 + 1]){
+			next = pos * 2 + 1;
+		    }else{
+			next = pos * 2;
+		    }
+		}else if (pos * 2 <= heap[0] && heap[pos] < heap[pos * 2]){
+		    next = pos * 2;
 		}else{
-		    int temp = heap[pos * 2 + 1];
-		    heap[pos * 2 + 1] = heap[pos];
-		    heap[pos] = temp;
-		    pos = pos * 2 + 1;
+		    next = pos * 2 + 1;
 		}
+		int temp = heap[next];
+		heap[next] = heap[pos];
+		heap[pos] = temp;
+		pos = next;
 	    }
 	}else{
 	    while ((pos * 2 <= heap[0] && heap[pos] > heap[pos * 2]) || (pos * 2 + 1 <= heap[0] && heap[pos] > heap[pos * 2 + 1])){
-		if (heap[pos] > heap[pos * 2]){
-		    int temp = heap[pos * 2];
-		    heap[pos * 2] = heap[pos];
-		    heap[pos] = temp;
-		    pos *= 2;
+		int next = 0;
+		if ((pos * 2 <= heap[0] && heap[pos] > heap[pos * 2]) && (pos * 2 + 1 <= heap[0] && heap[pos] > heap[pos * 2 + 1])){
+		    if (heap[pos * 2] > heap[pos * 2 + 1]){
+			next = pos * 2 + 1;
+		    }else{
+			next = pos * 2;
+		    }
+		}else if (pos * 2 <= heap[0] && heap[pos] > heap[pos * 2]){
+		    next = pos * 2;
 		}else{
-		    int temp = heap[pos * 2 + 1];
-		    heap[pos * 2 + 1] = heap[pos];
-		    heap[pos] = temp;
-		    pos = pos * 2 + 1;
+		    next = pos * 2 + 1;
 		}
+		int temp = heap[next];
+		heap[next] = heap[pos];
+		heap[pos] = temp;
+		pos = next;
 	    }
 	}
 	return root;
